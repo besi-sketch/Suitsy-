@@ -5,16 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Suitsy | New Collection 2026</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
-    <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=EUR"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=EUR&components=buttons,applepay"></script>
     <style>
         :root { --gold: #c5a059; --bg: #000; --card: #111; --text: #fff; }
-        body { font-family: 'Helvetica Neue', sans-serif; margin: 0; background: var(--bg); color: var(--text); overflow-x: hidden; }
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; margin: 0; background: var(--bg); color: var(--text); overflow-x: hidden; }
         
-        /* Navigimi */
         nav { background: #000; padding: 15px 5%; border-bottom: 2px solid var(--gold); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
         .logo { font-size: 2rem; font-weight: bold; text-transform: uppercase; letter-spacing: 6px; color: var(--gold); }
         
-        /* Kategoritë (Filterat) */
         .filter-bar { background: #111; padding: 15px 5%; display: flex; gap: 10px; overflow-x: auto; border-bottom: 1px solid #222; }
         .filter-btn { padding: 8px 20px; border: 1px solid var(--gold); color: var(--gold); background: none; border-radius: 20px; cursor: pointer; white-space: nowrap; transition: 0.3s; }
         .filter-btn.active, .filter-btn:hover { background: var(--gold); color: #000; }
@@ -22,33 +20,25 @@
         .container { padding: 30px 5%; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
         
-        /* Kartat e Produkteve */
         .card { background: var(--card); border: 1px solid #222; overflow: hidden; transition: 0.3s; }
         .card:hover { border-color: var(--gold); transform: translateY(-3px); }
-        .img-box { height: 400px; width: 100%; overflow: hidden; background: #222; }
+        .img-box { height: 420px; width: 100%; overflow: hidden; background: #222; }
         .img-box img { width: 100%; height: 100%; object-fit: cover; }
         
         .info { padding: 20px; text-align: center; }
-        .info h3 { font-size: 1.1rem; margin: 0; letter-spacing: 1px; }
         .price { color: var(--gold); font-weight: bold; font-size: 1.4rem; margin: 10px 0; }
         
-        /* Zgjedhja e Masave dhe Ngjyrave */
         .selectors { display: flex; gap: 10px; margin-bottom: 15px; justify-content: center; }
         select { background: #000; color: #fff; border: 1px solid #333; padding: 8px; border-radius: 5px; cursor: pointer; }
         
         .btn-add { width: 100%; padding: 15px; background: var(--gold); color: #000; border: none; cursor: pointer; font-weight: bold; text-transform: uppercase; border-radius: 5px; }
 
-        /* Shporta Sidebar */
         #cartSidebar { position: fixed; right: -100%; top: 0; width: 100%; max-width: 400px; height: 100%; background: #000; border-left: 2px solid var(--gold); z-index: 2000; transition: 0.5s; padding: 25px; box-sizing: border-box; display: flex; flex-direction: column; }
         #cartSidebar.open { right: 0; }
         .cart-items { flex-grow: 1; overflow-y: auto; margin: 20px 0; }
-        .cart-item { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #222; font-size: 0.9rem; background: #111; margin-bottom: 5px; }
+        .cart-item { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #222; background: #111; margin-bottom: 5px; }
 
-        /* Seksioni i Pagesës */
-        .payment-box { background: #111; padding: 20px; border-radius: 8px; border: 1px solid #333; margin-top: auto; }
-        .payment-box h4 { margin: 0 0 10px 0; font-size: 0.9rem; }
-        
-        /* Butoni i Postës (Cash) */
+        .payment-box { background: #0a0a0a; padding: 20px; border-radius: 8px; border: 1px solid #333; margin-top: auto; }
         .btn-cash { width: 100%; padding: 15px; background: #fff; color: #000; border: none; font-weight: bold; cursor: pointer; margin-top: 10px; border-radius: 5px; }
 
         .cart-trigger { cursor: pointer; position: relative; color: var(--gold); }
@@ -68,7 +58,6 @@
     <div class="filter-bar">
         <button class="filter-btn active" onclick="filter('all')">Të gjitha</button>
         <button class="filter-btn" onclick="filter('smoking')">Smoking</button>
-        <button class="filter-btn" onclick="filter('double')">Kopsa Double</button>
         <button class="filter-btn" onclick="filter('modern')">Moderne</button>
     </div>
 
@@ -86,12 +75,12 @@
         <div class="payment-box">
             <h4>Mënyra e Pagesës:</h4>
             <select id="paymentMethod" onchange="updatePaymentUI()">
-                <option value="cash">Cash kur vjen Posta</option>
-                <option value="online">Apple Pay / Kartë Banke / PayPal</option>
+                <option value="cash">Cash me Postë</option>
+                <option value="online">Kartë / Apple Pay</option>
             </select>
             <div id="online-payment" style="display:none; margin-top:10px;"><div id="paypal-button-container"></div></div>
             <button id="cash-button" class="btn-cash" onclick="sendToWhatsApp()">KONFIRMO ME POSTË</button>
-            <div style="margin-top:20px; font-size:1.4rem; display:flex; justify-content:space-between; border-top:1px solid #333; padding-top:15px; font-weight:bold;">
+            <div style="margin-top:20px; font-size:1.5rem; display:flex; justify-content:space-between; border-top:1px solid #333; padding-top:15px; font-weight:bold;">
                 <span>TOTALI:</span>
                 <span style="color:var(--gold)"><span id="totalPrice">0</span> €</span>
             </div>
@@ -99,13 +88,13 @@
     </div>
 
     <script>
-        // Te dhenat e rregulluara me fotot e sakta
+        // Te dhenat e rregulluara me fotot direkte nga Unsplash
         const products = [
-            { id: 1, name: "Smoking Beige Luxury", price: 210, cat: "smoking", img: "https://i.ibb.co/BtcV4vR/beige.png", colors: ["Beige"] },
-            { id: 2, name: "Kostum Vishnje Gold", price: 185, cat: "double", img: "https://i.ibb.co/3ykM1f7/terracota.png", colors: ["Vishnje"] },
-            { id: 3, name: "Kostum Green Double", price: 199, cat: "double", img: "https://i.ibb.co/YyYf4Z0/green-suit.png", colors: ["E gjelbër"] },
-            { id: 4, name: "Smoking Black Stripe", price: 220, cat: "smoking", img: "https://i.ibb.co/6P0L8yN/black-stripe.png", colors: ["E zezë"] },
-            { id: 5, name: "Kostum Terrakote Classic", price: 165, cat: "modern", img: "https://i.ibb.co/yYyHkYx/tuxedo.png", colors: ["Terrakotë"] }
+            { id: 1, name: "Smoking Beige Luxury", price: 210, cat: "smoking", img: "https://images.unsplash.com/photo-1594932224030-9409201f541f?w=600", color: "Beige" },
+            { id: 2, name: "Kostum Black Stripe", price: 185, cat: "smoking", img: "https://images.unsplash.com/photo-1593032465175-481ac7f402a1?w=600", color: "Zi me Shirita" },
+            { id: 3, name: "Kostum Green Luxury", price: 199, cat: "smoking", img: "https://images.unsplash.com/photo-1598808503744-ff8736d7593c?w=600", color: "E gjelbër" },
+            { id: 4, name: "Kostum Classic Beige", price: 145, cat: "modern", img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600", color: "Classic Beige" },
+            { id: 5, name: "Tuxedo Modern Detail", price: 250, cat: "modern", img: "https://images.unsplash.com/photo-1555069519-03463b27882d?w=600", color: "E zezë" }
         ];
 
         let cart = [];
@@ -116,7 +105,7 @@
             filteredData.forEach(p => {
                 grid.innerHTML += `
                     <div class="card">
-                        <div class="img-box"><img src="${p.img}"></div>
+                        <div class="img-box"><img src="${p.img}" onerror="this.src='https://via.placeholder.com/400x450/111/fff?text=Suitsy'"></div>
                         <div class="info">
                             <h3>${p.name}</h3>
                             <div class="price">${p.price} €</div>
@@ -124,9 +113,7 @@
                                 <select id="size-${p.id}">
                                     ${[48,50,52,54,56].map(s => `<option value="${s}">Masa: ${s}</option>`).join('')}
                                 </select>
-                                <select id="color-${p.id}">
-                                    ${p.colors.map(c => `<option value="${c}">${c}</option>`).join('')}
-                                </select>
+                                <select id="color-${p.id}"><option>${p.color}</option></select>
                             </div>
                             <button class="btn-add" onclick="addToCart(${p.id})">SHTO NË SHPORTË</button>
                         </div>
@@ -143,8 +130,7 @@
         function addToCart(id) {
             const item = products.find(p => p.id === id);
             const size = document.getElementById(`size-${id}`).value;
-            const color = document.getElementById(`color-${id}`).value;
-            cart.push({...item, size: size, color: color});
+            cart.push({...item, size: size});
             updateCart();
             if(!document.getElementById('cartSidebar').classList.contains('open')) toggleCart();
         }
@@ -153,7 +139,7 @@
             document.getElementById('cartCount').innerText = cart.length;
             const total = cart.reduce((sum, i) => sum + i.price, 0);
             document.getElementById('totalPrice').innerText = total;
-            document.getElementById('cartItems').innerHTML = cart.map(i => `<div class="cart-item"><span>${i.name} (${i.size}, ${i.color})</span><span>${i.price}€</span></div>`).join('');
+            document.getElementById('cartItems').innerHTML = cart.map(i => `<div class="cart-item"><span>${i.name} (Masa: ${i.size}, Ngjyra: ${i.color})</span><span>${i.price}€</span></div>`).join('');
             renderPayPal(total);
         }
 
