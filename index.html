@@ -5,67 +5,184 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Suitsy | New Collection 2026</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=EUR"></script>
     <style>
-        :root { --gold: #c5a059; --bg: #000; --card: #111; }
-        body { font-family: 'Helvetica Neue', sans-serif; margin: 0; background: var(--bg); color: #fff; text-align: center; }
-        nav { padding: 30px; border-bottom: 1px solid var(--gold); background: #000; position: sticky; top: 0; z-index: 100; }
-        .logo { font-size: 2.2rem; letter-spacing: 10px; color: var(--gold); font-weight: bold; }
-        .container { padding: 40px 5%; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        :root { --gold: #c5a059; --bg: #000; --card: #111; --text: #fff; }
+        body { font-family: 'Helvetica Neue', sans-serif; margin: 0; background: var(--bg); color: var(--text); overflow-x: hidden; }
+        
+        /* Navigimi */
+        nav { background: #000; padding: 15px 5%; border-bottom: 2px solid var(--gold); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
+        .logo { font-size: 2rem; font-weight: bold; text-transform: uppercase; letter-spacing: 6px; color: var(--gold); }
+        
+        /* Kategoritë (Filterat) */
+        .filter-bar { background: #111; padding: 15px 5%; display: flex; gap: 10px; overflow-x: auto; border-bottom: 1px solid #222; }
+        .filter-btn { padding: 8px 20px; border: 1px solid var(--gold); color: var(--gold); background: none; border-radius: 20px; cursor: pointer; white-space: nowrap; transition: 0.3s; }
+        .filter-btn.active, .filter-btn:hover { background: var(--gold); color: #000; }
+
+        .container { padding: 30px 5%; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        
+        /* Kartat e Produkteve */
         .card { background: var(--card); border: 1px solid #222; overflow: hidden; transition: 0.3s; }
-        .card:hover { border-color: var(--gold); transform: translateY(-5px); }
-        .img-box { height: 450px; background: #222; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .card:hover { border-color: var(--gold); transform: translateY(-3px); }
+        .img-box { height: 400px; width: 100%; overflow: hidden; background: #222; }
         .img-box img { width: 100%; height: 100%; object-fit: cover; }
-        .info { padding: 20px; }
-        .price { color: var(--gold); font-size: 1.4rem; font-weight: bold; margin: 10px 0; }
-        .btn { background: var(--gold); color: #000; border: none; padding: 15px; width: 100%; font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; }
+        
+        .info { padding: 20px; text-align: center; }
+        .info h3 { font-size: 1.1rem; margin: 0; letter-spacing: 1px; }
+        .price { color: var(--gold); font-weight: bold; font-size: 1.4rem; margin: 10px 0; }
+        
+        /* Zgjedhja e Masave dhe Ngjyrave */
+        .selectors { display: flex; gap: 10px; margin-bottom: 15px; justify-content: center; }
+        select { background: #000; color: #fff; border: 1px solid #333; padding: 8px; border-radius: 5px; cursor: pointer; }
+        
+        .btn-add { width: 100%; padding: 15px; background: var(--gold); color: #000; border: none; cursor: pointer; font-weight: bold; text-transform: uppercase; border-radius: 5px; }
+
+        /* Shporta Sidebar */
+        #cartSidebar { position: fixed; right: -100%; top: 0; width: 100%; max-width: 400px; height: 100%; background: #000; border-left: 2px solid var(--gold); z-index: 2000; transition: 0.5s; padding: 25px; box-sizing: border-box; display: flex; flex-direction: column; }
+        #cartSidebar.open { right: 0; }
+        .cart-items { flex-grow: 1; overflow-y: auto; margin: 20px 0; }
+        .cart-item { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #222; font-size: 0.9rem; background: #111; margin-bottom: 5px; }
+
+        /* Seksioni i Pagesës */
+        .payment-box { background: #111; padding: 20px; border-radius: 8px; border: 1px solid #333; margin-top: auto; }
+        .payment-box h4 { margin: 0 0 10px 0; font-size: 0.9rem; }
+        
+        /* Butoni i Postës (Cash) */
+        .btn-cash { width: 100%; padding: 15px; background: #fff; color: #000; border: none; font-weight: bold; cursor: pointer; margin-top: 10px; border-radius: 5px; }
+
+        .cart-trigger { cursor: pointer; position: relative; color: var(--gold); }
+        .count { position: absolute; top: -10px; right: -10px; background: #fff; color: #000; border-radius: 50%; width: 22px; height: 22px; font-size: 12px; display: flex; align-items: center; justify-content: center; font-weight: bold; }
     </style>
 </head>
 <body>
 
-<nav><div class="logo">SUITSY</div></nav>
-
-<div class="container">
-    <h1 style="letter-spacing: 4px; font-weight: 200; margin-bottom: 50px;">KOLEKSIONI 2026</h1>
-    <div class="grid">
-        
-        <div class="card">
-            <div class="img-box"><img src="https://images.unsplash.com/photo-1594932224030-9409201f541f?w=600"></div>
-            <div class="info">
-                <h3>Kostum Vishnje Gold Buttons</h3>
-                <div class="price">18,500 ALL</div>
-                <button class="btn" onclick="porosit('Vishnje Gold Buttons')">Porosit ne WhatsApp</button>
-            </div>
+    <nav>
+        <div class="logo">Suitsy</div>
+        <div class="cart-trigger" onclick="toggleCart()">
+            <i class="fa fa-shopping-bag fa-xl"></i>
+            <span class="count" id="cartCount">0</span>
         </div>
+    </nav>
 
-        <div class="card">
-            <div class="img-box"><img src="https://images.unsplash.com/photo-1593032465175-481ac7f402a1?w=600"></div>
-            <div class="info">
-                <h3>Kostum Bojeqielli Slim Fit</h3>
-                <div class="price">15,900 ALL</div>
-                <button class="btn" onclick="porosit('Bojeqielli Slim Fit')">Porosit ne WhatsApp</button>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="img-box"><img src="https://images.unsplash.com/photo-1598808503744-ff8736d7593c?w=600"></div>
-            <div class="info">
-                <h3>Kostum Terrakote Classic</h3>
-                <div class="price">16,500 ALL</div>
-                <button class="btn" onclick="porosit('Terrakote Classic')">Porosit ne WhatsApp</button>
-            </div>
-        </div>
-
+    <div class="filter-bar">
+        <button class="filter-btn active" onclick="filter('all')">Të gjitha</button>
+        <button class="filter-btn" onclick="filter('smoking')">Smoking</button>
+        <button class="filter-btn" onclick="filter('double')">Kopsa Double</button>
+        <button class="filter-btn" onclick="filter('modern')">Moderne</button>
     </div>
-</div>
 
-<script>
-    function porosit(modeli) {
-        const nr = "355688266055";
-        const msg = `Pershendetje Suitsy! Dua te porosis modelin: ${modeli}`;
-        window.open(`https://wa.me/${nr}?text=${encodeURIComponent(msg)}`, '_blank');
-    }
-</script>
+    <div class="container">
+        <h1 style="text-align:center; letter-spacing:4px; margin-bottom:40px;">NEW COLLECTION 2026</h1>
+        <div class="grid" id="productGrid"></div>
+    </div>
 
+    <div id="cartSidebar">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h2 style="color:var(--gold); margin:0;">POROSIA JUAJ</h2>
+            <i class="fa fa-times fa-lg" onclick="toggleCart()" style="cursor:pointer"></i>
+        </div>
+        <div class="cart-items" id="cartItems"></div>
+        <div class="payment-box">
+            <h4>Mënyra e Pagesës:</h4>
+            <select id="paymentMethod" onchange="updatePaymentUI()">
+                <option value="cash">Cash kur vjen Posta</option>
+                <option value="online">Apple Pay / Kartë Banke / PayPal</option>
+            </select>
+            <div id="online-payment" style="display:none; margin-top:10px;"><div id="paypal-button-container"></div></div>
+            <button id="cash-button" class="btn-cash" onclick="sendToWhatsApp()">KONFIRMO ME POSTË</button>
+            <div style="margin-top:20px; font-size:1.4rem; display:flex; justify-content:space-between; border-top:1px solid #333; padding-top:15px; font-weight:bold;">
+                <span>TOTALI:</span>
+                <span style="color:var(--gold)"><span id="totalPrice">0</span> €</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Te dhenat e rregulluara me fotot e sakta
+        const products = [
+            { id: 1, name: "Smoking Beige Luxury", price: 210, cat: "smoking", img: "https://i.ibb.co/BtcV4vR/beige.png", colors: ["Beige"] },
+            { id: 2, name: "Kostum Vishnje Gold", price: 185, cat: "double", img: "https://i.ibb.co/3ykM1f7/terracota.png", colors: ["Vishnje"] },
+            { id: 3, name: "Kostum Green Double", price: 199, cat: "double", img: "https://i.ibb.co/YyYf4Z0/green-suit.png", colors: ["E gjelbër"] },
+            { id: 4, name: "Smoking Black Stripe", price: 220, cat: "smoking", img: "https://i.ibb.co/6P0L8yN/black-stripe.png", colors: ["E zezë"] },
+            { id: 5, name: "Kostum Terrakote Classic", price: 165, cat: "modern", img: "https://i.ibb.co/yYyHkYx/tuxedo.png", colors: ["Terrakotë"] }
+        ];
+
+        let cart = [];
+
+        function displayProducts(filteredData) {
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = '';
+            filteredData.forEach(p => {
+                grid.innerHTML += `
+                    <div class="card">
+                        <div class="img-box"><img src="${p.img}"></div>
+                        <div class="info">
+                            <h3>${p.name}</h3>
+                            <div class="price">${p.price} €</div>
+                            <div class="selectors">
+                                <select id="size-${p.id}">
+                                    ${[48,50,52,54,56].map(s => `<option value="${s}">Masa: ${s}</option>`).join('')}
+                                </select>
+                                <select id="color-${p.id}">
+                                    ${p.colors.map(c => `<option value="${c}">${c}</option>`).join('')}
+                                </select>
+                            </div>
+                            <button class="btn-add" onclick="addToCart(${p.id})">SHTO NË SHPORTË</button>
+                        </div>
+                    </div>`;
+            });
+        }
+
+        function filter(cat) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            displayProducts(cat === 'all' ? products : products.filter(p => p.cat === cat));
+        }
+
+        function addToCart(id) {
+            const item = products.find(p => p.id === id);
+            const size = document.getElementById(`size-${id}`).value;
+            const color = document.getElementById(`color-${id}`).value;
+            cart.push({...item, size: size, color: color});
+            updateCart();
+            if(!document.getElementById('cartSidebar').classList.contains('open')) toggleCart();
+        }
+
+        function updateCart() {
+            document.getElementById('cartCount').innerText = cart.length;
+            const total = cart.reduce((sum, i) => sum + i.price, 0);
+            document.getElementById('totalPrice').innerText = total;
+            document.getElementById('cartItems').innerHTML = cart.map(i => `<div class="cart-item"><span>${i.name} (${i.size}, ${i.color})</span><span>${i.price}€</span></div>`).join('');
+            renderPayPal(total);
+        }
+
+        function toggleCart() { document.getElementById('cartSidebar').classList.toggle('open'); }
+        function updatePaymentUI() {
+            const method = document.getElementById('paymentMethod').value;
+            document.getElementById('online-payment').style.display = method === 'online' ? 'block' : 'none';
+            document.getElementById('cash-button').style.display = method === 'cash' ? 'block' : 'none';
+        }
+
+        function renderPayPal(amount) {
+            document.getElementById('paypal-button-container').innerHTML = '';
+            if(amount <= 0) return;
+            paypal.Buttons({
+                style: { layout: 'vertical', color: 'gold', shape: 'rect' },
+                createOrder: (data, actions) => actions.order.create({ purchase_units: [{ amount: { value: amount.toString() } }] }),
+                onApprove: (data, actions) => actions.order.capture().then(() => { alert('Pagesa u krye!'); cart = []; updateCart(); })
+            }).render('#paypal-button-container');
+        }
+
+        function sendToWhatsApp() {
+            if(cart.length === 0) return alert("Shporta është bosh!");
+            const total = document.getElementById('totalPrice').innerText;
+            const items = cart.map(i => "• " + i.name + " (" + i.size + ", " + i.color + ")").join("%0A");
+            const msg = `POROSI E RE - SUITSY%0A%0AArtikujt:%0A${items}%0A%0ATotali: ${total}€%0APagesa: CASH ME POSTË`;
+            window.open(`https://wa.me/355688266055?text=${msg}`, '_blank');
+        }
+
+        displayProducts(products);
+    </script>
 </body>
 </html>
