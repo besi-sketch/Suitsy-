@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suitsy | New Collection 2026</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <style>
+        :root { --gold: #c5a059; --bg: #000; --card: #111; }
+        body { font-family: 'Helvetica Neue', sans-serif; margin: 0; background: var(--bg); color: #fff; text-align: center; }
+        nav { padding: 30px; border-bottom: 1px solid var(--gold); background: #000; position: sticky; top: 0; z-index: 100; }
+        .logo { font-size: 2.2rem; letter-spacing: 10px; color: var(--gold); font-weight: bold; }
+        .container { padding: 40px 5%; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .card { background: var(--card); border: 1px solid #222; overflow: hidden; transition: 0.3s; }
+        .card:hover { border-color: var(--gold); transform: translateY(-5px); }
+        .img-box { height: 450px; background: #222; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .img-box img { width: 100%; height: 100%; object-fit: cover; }
+        .info { padding: 20px; }
+        .price { color: var(--gold); font-size: 1.4rem; font-weight: bold; margin: 10px 0; }
+        .btn { background: var(--gold); color: #000; border: none; padding: 15px; width: 100%; font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; }
+    </style>
+</head>
+<body>
+
+<nav><div class="logo">SUITSY</div></nav>
+
+<div class="container">
+    <h1 style="letter-spacing: 4px; font-weight: 200; margin-bottom: 50px;">KOLEKSIONI 2026</h1>
+    <div class="grid">
+        
+        <div class="card">
+            <div class="img-box"><img src="https://images.unsplash.com/photo-1594932224030-9409201f541f?w=600"></div>
+            <div class="info">
+                <h3>Kostum Vishnje Gold Buttons</h3>
+                <div class="price">18,500 ALL</div>
+                <button class="btn" onclick="porosit('Vishnje Gold Buttons')">Porosit ne WhatsApp</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="img-box"><img src="https://images.unsplash.com/photo-1593032465175-481ac7f402a1?w=600"></div>
+            <div class="info">
+                <h3>Kostum Bojeqielli Slim Fit</h3>
+                <div class="price">15,900 ALL</div>
+                <button class="btn" onclick="porosit('Bojeqielli Slim Fit')">Porosit ne WhatsApp</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="img-box"><img src="https://images.unsplash.com/photo-1598808503744-ff8736d7593c?w=600"></div>
+            <div class="info">
+                <h3>Kostum Terrakote Classic</h3>
+                <div class="price">16,500 ALL</div>
+                <button class="btn" onclick="porosit('Terrakote Classic')">Porosit ne WhatsApp</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    function porosit(modeli) {
+        const nr = "355688266055";
+        const msg = `Pershendetje Suitsy! Dua te porosis modelin: ${modeli}`;
+        window.open(`https://wa.me/${nr}?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+</script>
+
+</body>
+</html>
